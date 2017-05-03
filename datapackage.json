@@ -21,15 +21,15 @@
   }],
   "contributor": [],
   "resources": [{
-    "path": "data/data.csv",
+    "path": "data/commuting_and_residence_2014.csv",
     "format": "csv",
     "schema": {
       "fields": [{
-          "name": "Town",
+          "name": "Residence Town",
           "type": "string",
           "dimension": false
         }, {
-          "name": "FIPS",
+          "name": "Work Place Town",
           "type": "string",
           "dimension": false
         }, {
@@ -39,11 +39,21 @@
         }, {
           "name": "Measure Type",
           "type": "string",
-          "dimension": true
+          "dimension": true,
+          "constraints": {
+			      "enum": [
+		        "Number"
+		        ]
+			    }
         }, {
           "name": "Variable",
           "type": "string",
-          "dimension": true
+          "dimension": true, 
+          "constraints": {
+		        "enum": [
+              "Commuters"
+            ]
+			    }
         }, {
           "name": "Value",
           "type": "number",
@@ -91,9 +101,9 @@
     },
     "geography": {
       "ckan_name": "Geography",
-      "value": "Town",
+      "value": "Residence Town",
       "type": "string",
-      "constraints": {"enum": ["Town", "County", "Town/County", "District", "Other"]}
+      "constraints": {"enum": ["Residence Town", "Town", "County", "Town/County", "District", "Other"]}
     },
     "frequency": {
       "ckan_name": "Frequency",
@@ -102,7 +112,7 @@
     },
     "years_in_catalog": {
       "ckan_name": "Years in Catalog",
-      "value": ["2013", "2014"],
+      "value": ["2014"],
       "type": "array"
     },
     "latest_year": {
@@ -123,11 +133,51 @@
         "Percent": "%"
       }
     },
-    "default": {}
+    "expected_number_of_geographies": {
+		  "ckan_name": "Expected Number of Unique Geographies",
+		  "value": 169,
+		  "type": "string"
+		},       
+    "default": {      
+      "ckan_name": "Default",
+			"value": {
+				"Measure Type": "Number",
+		 		"Residence Town": "Hartford",
+		 		"Work Place Town": "Hartford",
+		 		"Year": ["2014"],
+		 		"Variable": "Commuters"
+			},
+		  	"type": "object"
+    }  
   },
-  "spot_checks": [],
+  "spot_checks": [
+    {
+      "type": "$lookup",
+      "filter": {
+        "Residence Town": "Hartford",
+        "Year": "2014",
+        "Variable": "Commuters",
+        "Work Place Town": "Hartford",
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 14664
+      } 
+    }    
+  ],
   "dimension_groups": [
-    {"Measure Type": []},
-    {"Variable": []}
+    {
+		  "name": "Work Place Town",
+		  "type": "int", 
+		  "constraints": {
+		    "unique": true,
+		    "minimum": 169,
+		    "maximum": 169
+		  }
+    } 
   ]
 }
+
+

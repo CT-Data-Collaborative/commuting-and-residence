@@ -10,13 +10,6 @@ library(gtools)
 #
 ##################################################################
 
-#data source: https://lehd.ces.census.gov/data/lodes/LODES7/ct/od/ct_od_main_JT00_2014.csv
-# https://lehd.ces.census.gov/data/
-#   LODES7
-#   Connecticut
-#   OD
-#   >>Geography Crosswalk for CT
-
 #Setup environment
 sub_folders <- list.files()
 data_location <- grep("raw", sub_folders, value=T)
@@ -97,8 +90,14 @@ complete_com_res_total$`Measure Type` <- "Number"
 #set Variable
 complete_com_res_total$`Variable` <- "Commuters"
 
+#Arrange and order columns
+complete_com_res_total <- arrange(complete_com_res_total, `Residence Town`, desc(Value)) %>% 
+  select(`Residence Town`, `Work Place Town`, `Year`, `Variable`, `Measure Type`, `Value`)
 
-#matches <- complete_com_res_total[complete_com_res_total$`Work Place Town` == complete_com_res_total$`Residence Town`,]
-
-
-
+#Write CSV
+write.table(
+  complete_com_res_total,
+  file.path(getwd(), "data", "commuting_and_residence_2014.csv"),
+  sep = ",",
+  row.names = F
+)

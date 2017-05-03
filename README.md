@@ -1,7 +1,10 @@
 Commuting and Residence
 
 [![Build Status](https://travis-ci.org/CT-Data-Collaborative/commuting-and-residence.svg?branch=master)](https://travis-ci.org/CT-Data-Collaborative/commuting-and-residence)
+
 Commuting and Residence reports the number of commuters into and out of each municipality.
+
+Data Source: <https://lehd.ces.census.gov/data/lodes/LODES7/ct/od/>
 
 ## License MIT
 
