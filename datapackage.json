@@ -167,17 +167,7 @@
       } 
     }    
   ],
-  "dimension_groups": [
-    {
-		  "name": "Work Place Town",
-		  "type": "int", 
-		  "constraints": {
-		    "unique": true,
-		    "minimum": 169,
-		    "maximum": 169
-		  }
-    } 
-  ]
+  "dimension_groups": []
 }
 
 

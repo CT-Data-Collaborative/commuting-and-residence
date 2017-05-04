@@ -94,6 +94,10 @@ complete_com_res_total$`Variable` <- "Commuters"
 complete_com_res_total <- arrange(complete_com_res_total, `Residence Town`, desc(Value)) %>% 
   select(`Residence Town`, `Work Place Town`, `Year`, `Variable`, `Measure Type`, `Value`)
 
+matches <- complete_com_res_total[complete_com_res_total$`Residence Town` == complete_com_res_total$`Work Place Town`,]
+arranged <- arrange(matches, desc(Value))
+value <- arranged$Value
+
 #Write CSV
 write.table(
   complete_com_res_total,
