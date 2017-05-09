@@ -33,11 +33,11 @@
           "type": "string",
           "dimension": false
         }, {          
-          "name": "Work Place Town",
+          "name": "Workplace Town",
           "type": "string",
           "dimension": false
         }, {
-          "name": "Work Place FIPS",
+          "name": "Workplace FIPS",
           "type": "string",
           "dimension": false
         }, {          
@@ -151,7 +151,7 @@
 			"value": {
 				"Measure Type": "Number",
 		 		"Residence Town": "Hartford",
-		 		"Work Place Town": "Hartford",
+		 		"Workplace Town": "Hartford",
 		 		"Year": ["2014"],
 		 		"Variable": "Commuters"
 			},
@@ -165,7 +165,7 @@
         "Residence Town": "Hartford",
         "Year": "2014",
         "Variable": "Commuters",
-        "Work Place Town": "Hartford",
+        "Workplace Town": "Hartford",
         "Measure Type": "Number" 
       },
       "expected": {

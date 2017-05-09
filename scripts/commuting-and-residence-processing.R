@@ -16,16 +16,14 @@ data_location <- grep("raw", sub_folders, value=T)
 path_to_raw_data <- (paste0(getwd(), "/", data_location))
 all_csvs <- dir(path_to_raw_data, recursive=T, pattern = "od") 
 
-com_res_data <- data.frame(stringsAsFactors = F)
-for (i in 1:length(all_csvs)) {
-  current_file <- read.csv(paste0(path_to_raw_data, "/", all_csvs[i]), stringsAsFactors=F, header=T )
-  current_file <-format(current_file, scientific = FALSE) 
-  current_file <- current_file[,c(1:3)]
-  colnames(current_file) <- c("Workplace FIPS", "Residence FIPS", "Value")
-  get_year <- as.numeric(unique(unlist(gsub("[^0-9]", "", unlist(all_csvs[i])), "")))
-  current_file$Year <- get_year
-  com_res_data <- rbind(com_res_data, current_file)
-}
+#only read in 2014 data
+com_res_data <- read.csv(paste0(path_to_raw_data, "/", all_csvs[2]), stringsAsFactors=F, header=T )
+com_res_data <-format(com_res_data, scientific = FALSE) 
+com_res_data <- com_res_data[,c(1:3)]
+colnames(com_res_data) <- c("Workplace FIPS", "Residence FIPS", "Value")
+get_year <- as.numeric(unique(unlist(gsub("[^0-9]", "", unlist(all_csvs[2])), "")))
+com_res_data$Year <- get_year  
+
 
 xwalk <- read.csv(paste0(path_to_raw_data, "/", "ct_xwalk.csv"), stringsAsFactors=F, header=T )
 xwalk$tabblk2010 <-format(xwalk$tabblk2010, scientific = FALSE) 
@@ -49,9 +47,6 @@ names(com_res_towns)[names(com_res_towns)=="ctycsubname"] <- "Residence Town"
 #add up commuters for each town
 com_res_towns$"Value" <- as.numeric(com_res_towns$"Value")
 com_res_total <- aggregate(`Value` ~ `Residence Town` + `Workplace Town` + `Year`, com_res_towns, sum)
-
-#only process latest year
-com_res_total <- com_res_total[com_res_total$Year == 2014,]
 
 #remove extra rows that had county fips
 com_res_total <- com_res_total[com_res_total$`Residence Town` != "",]
@@ -98,12 +93,12 @@ com_res_total_with_fips$`Measure Type` <- "Number"
 com_res_total_with_fips$`Variable` <- "Commuters"
 
 #Arrange and order columns
-complete_com_res_total <- arrange(com_res_total_with_fips, `Residence Town`, desc(Value)) %>% 
+com_res_total_with_fips <- arrange(com_res_total_with_fips, `Residence Town`, desc(Value)) %>% 
   select(`Residence Town`, `Residence FIPS`, `Workplace Town`, `Workplace FIPS`, `Year`, `Variable`, `Measure Type`, `Value`)
 
 #Write CSV
 write.table(
-  complete_com_res_total,
+  com_res_total_with_fips,
   file.path(getwd(), "data", "commuting_and_residence_2014.csv"),
   sep = ",",
   row.names = F
