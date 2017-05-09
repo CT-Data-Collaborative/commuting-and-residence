@@ -21,7 +21,7 @@ for (i in 1:length(all_csvs)) {
   current_file <- read.csv(paste0(path_to_raw_data, "/", all_csvs[i]), stringsAsFactors=F, header=T )
   current_file <-format(current_file, scientific = FALSE) 
   current_file <- current_file[,c(1:3)]
-  colnames(current_file) <- c("Work Place FIPS", "Residence FIPS", "Value")
+  colnames(current_file) <- c("Workplace FIPS", "Residence FIPS", "Value")
   get_year <- as.numeric(unique(unlist(gsub("[^0-9]", "", unlist(all_csvs[i])), "")))
   current_file$Year <- get_year
   com_res_data <- rbind(com_res_data, current_file)
@@ -37,10 +37,10 @@ xwalk_small_fips <- xwalk_small_fips[!duplicated(xwalk_small_fips), ]
 #remove CT
 xwalk_small_fips <- xwalk_small_fips[xwalk_small_fips$ctycsub!=9999999999, ]
 
-#merge in FIPS for both residence and work place
-com_res_towns <- merge(xwalk_large_fips, com_res_data, by.x = "tabblk2010", by.y = "Work Place FIPS")
-names(com_res_towns)[names(com_res_towns)=="tabblk2010"] <- "Work Place FIPS"
-names(com_res_towns)[names(com_res_towns)=="ctycsubname"] <- "Work Place Town"
+#merge in FIPS for both residence and Workplace
+com_res_towns <- merge(xwalk_large_fips, com_res_data, by.x = "tabblk2010", by.y = "Workplace FIPS")
+names(com_res_towns)[names(com_res_towns)=="tabblk2010"] <- "Workplace FIPS"
+names(com_res_towns)[names(com_res_towns)=="ctycsubname"] <- "Workplace Town"
 
 com_res_towns <- merge(xwalk_large_fips, com_res_towns, by.x = "tabblk2010", by.y = "Residence FIPS")
 names(com_res_towns)[names(com_res_towns)=="tabblk2010"] <- "Residence FIPS"
@@ -48,7 +48,7 @@ names(com_res_towns)[names(com_res_towns)=="ctycsubname"] <- "Residence Town"
 
 #add up commuters for each town
 com_res_towns$"Value" <- as.numeric(com_res_towns$"Value")
-com_res_total <- aggregate(`Value` ~ `Residence Town` + `Work Place Town` + `Year`, com_res_towns, sum)
+com_res_total <- aggregate(`Value` ~ `Residence Town` + `Workplace Town` + `Year`, com_res_towns, sum)
 
 #only process latest year
 com_res_total <- com_res_total[com_res_total$Year == 2014,]
@@ -58,7 +58,7 @@ com_res_total <- com_res_total[com_res_total$`Residence Town` != "",]
 
 #check to make sure work and residence columns have all towns, and all the same towns
 u1 <- unique(com_res_total$`Residence Town`)
-u2 <- unique(com_res_total$`Work Place Town`)
+u2 <- unique(com_res_total$`Workplace Town`)
 u1_sort <- mixedsort(u1)
 u2_sort <- mixedsort(u2)
 identical(u1_sort, u2_sort)
@@ -68,15 +68,15 @@ work_towns <- u1_sort
 residence_towns <- u1_sort
 
 backfill_towns <- expand.grid(
-  `Work Place Town` = work_towns,
+  `Workplace Town` = work_towns,
   `Residence Town` = residence_towns 
 )
 
-complete_com_res_total <- merge(com_res_total, backfill_towns, by = c("Work Place Town", "Residence Town"), all=T)
+complete_com_res_total <- merge(com_res_total, backfill_towns, by = c("Workplace Town", "Residence Town"), all=T)
 
 #Add back in small FIPS
-com_res_total_with_fips <- merge(complete_com_res_total, xwalk_small_fips, by.x = "Work Place Town", by.y = "ctycsubname")
-names(com_res_total_with_fips)[names(com_res_total_with_fips)=="ctycsub"] <- "Work Place FIPS"
+com_res_total_with_fips <- merge(complete_com_res_total, xwalk_small_fips, by.x = "Workplace Town", by.y = "ctycsubname")
+names(com_res_total_with_fips)[names(com_res_total_with_fips)=="ctycsub"] <- "Workplace FIPS"
 
 com_res_total_with_fips <- merge(com_res_total_with_fips, xwalk_small_fips, by.x = "Residence Town", by.y = "ctycsubname")
 names(com_res_total_with_fips)[names(com_res_total_with_fips)=="ctycsub"] <- "Residence FIPS"
@@ -85,7 +85,7 @@ names(com_res_total_with_fips)[names(com_res_total_with_fips)=="ctycsub"] <- "Re
 com_res_total_with_fips$Year <- "2014"
 
 #remove county name from town columns
-com_res_total_with_fips$`Work Place Town` <- sub(" town.*", "", com_res_total_with_fips$`Work Place Town`)
+com_res_total_with_fips$`Workplace Town` <- sub(" town.*", "", com_res_total_with_fips$`Workplace Town`)
 com_res_total_with_fips$`Residence Town` <- sub(" town.*", "", com_res_total_with_fips$`Residence Town`)
 
 #set NA's to zero (designates no commuters)
@@ -99,7 +99,7 @@ com_res_total_with_fips$`Variable` <- "Commuters"
 
 #Arrange and order columns
 complete_com_res_total <- arrange(com_res_total_with_fips, `Residence Town`, desc(Value)) %>% 
-  select(`Residence Town`, `Residence FIPS`, `Work Place Town`, `Work Place FIPS`, `Year`, `Variable`, `Measure Type`, `Value`)
+  select(`Residence Town`, `Residence FIPS`, `Workplace Town`, `Workplace FIPS`, `Year`, `Variable`, `Measure Type`, `Value`)
 
 #Write CSV
 write.table(
