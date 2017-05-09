@@ -53,10 +53,6 @@ com_res_total <- aggregate(`Value` ~ `Residence Town` + `Work Place Town` + `Yea
 #only process latest year
 com_res_total <- com_res_total[com_res_total$Year == 2014,]
 
-#remove county name from town columns
-com_res_total$`Work Place Town` <- sub(" town.*", "", com_res_total$`Work Place Town`)
-com_res_total$`Residence Town` <- sub(" town.*", "", com_res_total$`Residence Town`)
-
 #remove extra rows that had county fips
 com_res_total <- com_res_total[com_res_total$`Residence Town` != "",]
 
@@ -78,25 +74,32 @@ backfill_towns <- expand.grid(
 
 complete_com_res_total <- merge(com_res_total, backfill_towns, by = c("Work Place Town", "Residence Town"), all=T)
 
+#Add back in small FIPS
+com_res_total_with_fips <- merge(complete_com_res_total, xwalk_small_fips, by.x = "Work Place Town", by.y = "ctycsubname")
+names(com_res_total_with_fips)[names(com_res_total_with_fips)=="ctycsub"] <- "Work Place FIPS"
+
+com_res_total_with_fips <- merge(com_res_total_with_fips, xwalk_small_fips, by.x = "Residence Town", by.y = "ctycsubname")
+names(com_res_total_with_fips)[names(com_res_total_with_fips)=="ctycsub"] <- "Residence FIPS"
+
 #set Year
-complete_com_res_total$Year <- "2014"
+com_res_total_with_fips$Year <- "2014"
+
+#remove county name from town columns
+com_res_total_with_fips$`Work Place Town` <- sub(" town.*", "", com_res_total_with_fips$`Work Place Town`)
+com_res_total_with_fips$`Residence Town` <- sub(" town.*", "", com_res_total_with_fips$`Residence Town`)
 
 #set NA's to zero (designates no commuters)
-complete_com_res_total[is.na(complete_com_res_total)] <- 0
+com_res_total_with_fips[is.na(com_res_total_with_fips)] <- 0
 
 #set Measure Type
-complete_com_res_total$`Measure Type` <- "Number"
+com_res_total_with_fips$`Measure Type` <- "Number"
 
 #set Variable
-complete_com_res_total$`Variable` <- "Commuters"
+com_res_total_with_fips$`Variable` <- "Commuters"
 
 #Arrange and order columns
-complete_com_res_total <- arrange(complete_com_res_total, `Residence Town`, desc(Value)) %>% 
-  select(`Residence Town`, `Work Place Town`, `Year`, `Variable`, `Measure Type`, `Value`)
-
-matches <- complete_com_res_total[complete_com_res_total$`Residence Town` == complete_com_res_total$`Work Place Town`,]
-arranged <- arrange(matches, desc(Value))
-value <- arranged$Value
+complete_com_res_total <- arrange(com_res_total_with_fips, `Residence Town`, desc(Value)) %>% 
+  select(`Residence Town`, `Residence FIPS`, `Work Place Town`, `Work Place FIPS`, `Year`, `Variable`, `Measure Type`, `Value`)
 
 #Write CSV
 write.table(

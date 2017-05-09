@@ -29,10 +29,18 @@
           "type": "string",
           "dimension": false
         }, {
+          "name": "Residence FIPS",
+          "type": "string",
+          "dimension": false
+        }, {          
           "name": "Work Place Town",
           "type": "string",
           "dimension": false
         }, {
+          "name": "Work Place FIPS",
+          "type": "string",
+          "dimension": false
+        }, {          
           "name": "Year",
           "type": "string",
           "dimension": false
@@ -62,7 +70,7 @@
       }
     }
   ],
-  "last_modified": "05/02/2017",
+  "last_modified": "05/09/2017",
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
