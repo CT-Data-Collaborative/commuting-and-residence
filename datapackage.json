@@ -25,7 +25,7 @@
     "format": "csv",
     "schema": {
       "fields": [{
-          "name": "Residence Town",
+          "name": "Residence",
           "type": "string",
           "dimension": false
         }, {
@@ -33,7 +33,7 @@
           "type": "string",
           "dimension": false
         }, {          
-          "name": "Workplace Town",
+          "name": "Workplace",
           "type": "string",
           "dimension": false
         }, {
@@ -109,9 +109,9 @@
     },
     "geography": {
       "ckan_name": "Geography",
-      "value": "Residence Town",
+      "value": "Residence",
       "type": "string",
-      "constraints": {"enum": ["Residence Town", "Town", "County", "Town/County", "District", "Other"]}
+      "constraints": {"enum": ["Residence", "Town", "County", "Town/County", "District", "Other"]}
     },
     "frequency": {
       "ckan_name": "Frequency",
@@ -150,8 +150,8 @@
       "ckan_name": "Default",
 			"value": {
 				"Measure Type": "Number",
-		 		"Residence Town": "Hartford",
-		 		"Workplace Town": "Hartford",
+		 		"Residence": "Hartford",
+		 		"Workplace": "Hartford",
 		 		"Year": ["2014"],
 		 		"Variable": "Commuters"
 			},
@@ -162,10 +162,10 @@
     {
       "type": "$lookup",
       "filter": {
-        "Residence Town": "Hartford",
+        "Residence": "Hartford",
         "Year": "2014",
         "Variable": "Commuters",
-        "Workplace Town": "Hartford",
+        "Workplace": "Hartford",
         "Measure Type": "Number" 
       },
       "expected": {

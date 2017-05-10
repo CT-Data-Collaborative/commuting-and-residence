@@ -1,4 +1,4 @@
-"Residence Town","Residence FIPS","Workplace Town","Workplace FIPS","Year","Variable","Measure Type","Value"
+"Residence","Residence FIPS","Workplace","Workplace FIPS","Year","Variable","Measure Type","Value"
 "Andover",901301080,"Hartford",900337070,"2014","Commuters","Number",195
 "Andover",901301080,"Manchester",900344700,"2014","Commuters","Number",179
 "Andover",901301080,"East Hartford",900322630,"2014","Commuters","Number",114
