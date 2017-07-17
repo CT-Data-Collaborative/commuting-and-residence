@@ -224,5 +224,3 @@ write.table(
   sep = ",",
   row.names = F
 )
-
-
