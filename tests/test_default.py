@@ -11,7 +11,7 @@ import pytest
 
 
 def test_dataset_row_counts(rowcount):
-    assert 28561
+    assert 49880
 
 def test_spotcheck_testing(spotcheck_results):
     for check in spotcheck_results:
