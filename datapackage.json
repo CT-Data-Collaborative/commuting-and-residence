@@ -29,6 +29,10 @@
           "type": "string",
           "dimension": false
         }, {
+          "name": "Residence State",
+          "type": "string",
+          "dimension": false
+        }, {          
           "name": "Residence FIPS",
           "type": "string",
           "dimension": false
@@ -37,6 +41,10 @@
           "type": "string",
           "dimension": false
         }, {
+          "name": "Workplace State",
+          "type": "string",
+          "dimension": false
+        }, {          
           "name": "Workplace FIPS",
           "type": "string",
           "dimension": false
@@ -70,11 +78,11 @@
       }
     }
   ],
-  "last_modified": "05/09/2017",
+  "last_modified": "07/17/2017",
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
-      "value": "The US Census Bureau produces the Longitudinal Employer-Household Dynamics (LEHD) as a means of researching and characterizing workforce dynamics. Presented here are values aggregated to the town level from the LEHD Origin-Destination Employment Statistics (LODES), which provides these values at a census tract level.",
+      "value": "The US Census Bureau produces the Longitudinal Employer-Household Dynamics (LEHD) as a means of researching and characterizing workforce dynamics. Presented here are values aggregated to the town level from the LEHD Origin-Destination Employment Statistics (LODES), which provides these values at a census tract level. These data provide commuting totals for both in and out of state commuting, including New York, Massachusetts, and Rhode Island towns.",
       "type": "string"
     },
     "suppression": {
@@ -143,7 +151,7 @@
     },
     "expected_number_of_geographies": {
 		  "ckan_name": "Expected Number of Unique Geographies",
-		  "value": 169,
+		  "value": 973,
 		  "type": "string"
 		},       
     "default": {      
