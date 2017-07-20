@@ -171,15 +171,68 @@
       "type": "$lookup",
       "filter": {
         "Residence": "Hartford",
+        "Residence State": "CT",
         "Year": "2014",
         "Variable": "Commuters",
-        "Workplace": "Hartford",
+        "Workplace": "Providence",
+        "Workplace State": "RI",        
         "Measure Type": "Number" 
       },
       "expected": {
         "type": "$match",
         "number type": "int",
-        "value": 14664
+        "value": 12
+      } 
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Residence": "Manhattan",
+        "Residence State": "NY",        
+        "Year": "2014",
+        "Variable": "Commuters",
+        "Workplace": "Greenwich",
+        "Workplace State": "CT",          
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 1558
+      } 
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Residence": "Andover",
+        "Residence State": "CT",
+        "Year": "2014",
+        "Variable": "Commuters",
+        "Workplace": "Coventry",
+        "Workplace State": "CT",        
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 24
+      } 
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Residence": "Springfield",
+        "Residence State": "MA",        
+        "Year": "2014",
+        "Variable": "Commuters",
+        "Workplace": "Enfield",
+        "Workplace State": "CT",          
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 1123
       } 
     }    
   ],
