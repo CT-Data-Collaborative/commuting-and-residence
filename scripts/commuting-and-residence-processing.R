@@ -21,7 +21,7 @@ all_csvs <- dir(path_to_raw_data, recursive=T, pattern = "od")
 latest_year <- "2014"
 latest_csvs <- grep(latest_year, all_csvs, value=T)
 
-xwalk_files <- dir(path_to_raw_data, recursive=T, pattern = "xwalk") 
+xwalk_files <- dir(path_to_raw_data, recursive=T, pattern = "xwalk.csv$") 
 
 all_states_xwalk <- data.frame(stringsAsFactors = FALSE)
 for (i in 1:length(xwalk_files)) {
@@ -32,6 +32,7 @@ for (i in 1:length(xwalk_files)) {
 all_states_xwalk$tabblk2010 <- format(all_states_xwalk$tabblk2010, scientific = FALSE) 
 
 xwalk_large_fips <- all_states_xwalk[,c(1,18)]
+xwalk_large_fips <- xwalk_large_fips[xwalk_large_fips$ctycsubname != "",]
 
 
 #Separate out into 3 sections, and merge by FIPS separately
@@ -68,6 +69,9 @@ CT_fips_total <- aggregate(`Value` ~ `Residence` + `Workplace` + `Year`, CT_fips
 CT_fips_total <- CT_fips_total[CT_fips_total$`Residence` != "",]
 CT_fips_total$`Residence State` <- "CT"
 CT_fips_total$`Workplace State` <- "CT"
+
+#res <- unique(CT_fips_total$Residence)
+#work <- unique(CT_fips_total$Workplace)
 
 ##2) to CT (CT-aux)
 ########################################################################################################
@@ -130,7 +134,7 @@ all_non_CT_states <- unique(grep(paste(neighbors, collapse="|"), all_out_states,
 
 CT_out <- data.frame(stringsAsFactors = FALSE)
 for (i in 1:length(all_non_CT_states)) {
-  current_out_state <- get(all_non_CT_states[1])
+  current_out_state <- get(all_non_CT_states[i])
   #filter out all non-CT residences
   current_out_state <- current_out_state[substr(current_out_state$`Residence FIPS`, 1, 2) == " 9",]
   current_out_state$`Residence State` <- "CT"
