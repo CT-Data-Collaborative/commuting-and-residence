@@ -21,7 +21,7 @@
   }],
   "contributor": [],
   "resources": [{
-    "path": "data/commuting_and_residence_2014.csv",
+    "path": "data/commuting_and_residence_2015.csv",
     "format": "csv",
     "schema": {
       "fields": [{
@@ -78,7 +78,7 @@
       }
     }
   ],
-  "last_modified": "07/17/2017",
+  "last_modified": "03/14/2018",
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
@@ -128,12 +128,12 @@
     },
     "years_in_catalog": {
       "ckan_name": "Years in Catalog",
-      "value": ["2014"],
+      "value": ["2014", "2015"],
       "type": "array"
     },
     "latest_year": {
       "ckan_name": "Latest Year Available",
-      "value": "2014",
+      "value": "2015",
       "type": "string"
     },
     "disabled_views": {
@@ -151,7 +151,7 @@
     },
     "expected_number_of_geographies": {
 		  "ckan_name": "Expected Number of Unique Geographies",
-		  "value": 973,
+		  "value": 1095,
 		  "type": "string"
 		},       
     "default": {      
@@ -159,8 +159,10 @@
 			"value": {
 				"Measure Type": "Number",
 		 		"Residence": "Hartford",
+		 		"Residence State": "CT",
 		 		"Workplace": "Hartford",
-		 		"Year": ["2014"],
+		 		"Workplace State": "CT",
+		 		"Year": ["2015"],
 		 		"Variable": "Commuters"
 			},
 		  	"type": "object"
@@ -234,7 +236,58 @@
         "number type": "int",
         "value": 1123
       } 
-    }    
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Residence": "Hopkinton",
+        "Residence State": "RI",        
+        "Year": "2015",
+        "Variable": "Commuters",
+        "Workplace": "Groton",
+        "Workplace State": "CT",          
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 261
+      } 
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Residence": "Manhattan",
+        "Residence State": "NY",        
+        "Year": "2015",
+        "Variable": "Commuters",
+        "Workplace": "Stamford",
+        "Workplace State": "CT",          
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 1793
+      } 
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Residence": "Agawam",
+        "Residence State": "MA",        
+        "Year": "2015",
+        "Variable": "Commuters",
+        "Workplace": "Windsor Locks",
+        "Workplace State": "CT",          
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 167
+      } 
+    }
   ],
   "dimension_groups": []
 }
