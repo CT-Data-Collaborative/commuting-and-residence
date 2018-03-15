@@ -2,22 +2,18 @@ Commuting and Residence
 
 Commuting and Residence reports the number of commuters into and out of each municipality.
 
-Data Source: Longitudinal Employer-Household Dynamics (LEHD) Origin-Destination Employment Statistics (LODES) 
+Data Source: *Longitudinal Employer-Household Dynamics (**LEHD**) Origin-Destination Employment Statistics (**LODES**)* 
 
- *LODES7 = enumerated by 2010 census blocks
- 
- *od = origin-destination
- 
- *main = includes jobs with both workplace and residence in the state (only need these for CT)
- 
- *aux = includes jobs with the workplace in the state and the residence outside of the state (need these for CT and neighbor states)
- 
- *JT00 = all jobs
+ * LODES7 = enumerated by 2010 census blocks
+ * od = origin-destination
+ * main = includes jobs with both workplace and residence in the state (only need these for CT)
+ * aux = includes jobs with the workplace in the state and the residence outside of the state (need these for CT and neighbor states)
+ * JT00 = all jobs
 
-#### Connecticut <https://lehd.ces.census.gov/data/lodes/LODES7/ct/od/>
-#### Massachusetts <https://lehd.ces.census.gov/data/lodes/LODES7/ma/od/>
-#### New York <https://lehd.ces.census.gov/data/lodes/LODES7/ny/od/>
-#### Rhode Island <https://lehd.ces.census.gov/data/lodes/LODES7/ri/od/>
+#### Connecticut: <https://lehd.ces.census.gov/data/lodes/LODES7/ct/od/>
+#### Massachusetts: <https://lehd.ces.census.gov/data/lodes/LODES7/ma/od/>
+#### New York: <https://lehd.ces.census.gov/data/lodes/LODES7/ny/od/>
+#### Rhode Island: <https://lehd.ces.census.gov/data/lodes/LODES7/ri/od/>
 
 ## License MIT
 
